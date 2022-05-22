@@ -82,7 +82,7 @@ form.addEventListener("submit", (e) => {
     let maxHolidaysCount = 0;
     const results = [];
     for (startDate; moment(startDate).isBefore(endDate); startDate = moment(startDate).add(1, "days")) {
-        console.log(`start holiday on ${formatDate(startDate)}`);
+        // console.log(`start holiday on ${formatDate(startDate)}`);
         let holidayCount = 0;
         let currentDate = moment(startDate);
         for (let i = 0; i < leaves; i++) {
@@ -102,8 +102,8 @@ form.addEventListener("submit", (e) => {
         }
 
         holidayCount--;
-        console.log(`resume work on ${formatDate(currentDate)}`);
-        console.log(`total holiday count: ${holidayCount}`);
+        // console.log(`resume work on ${formatDate(currentDate)}`);
+        // console.log(`total holiday count: ${holidayCount}`);
         if (holidayCount > maxHolidaysCount) {
             maxHolidaysCount = holidayCount;
             bestHolidayStart = formatDate(currentDate);
@@ -117,7 +117,7 @@ form.addEventListener("submit", (e) => {
 
     document.querySelector("#max-holidays").textContent = maxHolidaysCount;
     const bestDates = results.filter((result) => result.holidays === maxHolidaysCount);
-    console.log(bestDates);
+    // console.log(bestDates);
     for (let i = 0; i < bestDates.length; i++) {
         const option = document.createElement("div");
         option.classList.add("holiday-option");
