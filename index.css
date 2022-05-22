@@ -1,0 +1,88 @@
+h1 {
+    text-align: center;
+    text-transform: capitalize;
+}
+
+p {
+    margin: 5px;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#today {
+    font-weight: bold;
+}
+
+form {
+    margin: 10px
+}
+
+label {
+    display: inline-block;
+    width: 150px;
+}
+
+input {
+    width: fit-content;
+    margin: 5px;
+    font-size: 100%;
+}
+
+.form-row:last-child{
+    margin: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+#leavesCount {
+    width: 40px;
+}
+
+#remarks {
+    display: block;
+    font-style: italic;
+}
+
+#output{
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#output > * {
+    margin: 5px;
+}
+
+.bold {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.holiday-option > * {
+    margin-bottom: 10px;
+}
+
+.holiday-start::before,
+.holiday-end::before {
+    font-weight: bold;
+    display: inline-block;
+    width: 150px;
+}
+
+
+.holiday-start::before {
+    content: 'Start holiday on ';
+}
+
+.holiday-end::before {
+    content: 'Resume work on ';
+}
+
+.hidden {
+    display: none;
+}
