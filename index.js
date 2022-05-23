@@ -114,6 +114,8 @@ form.addEventListener("submit", (e) => {
             holidays: holidayCount,
         });
     }
+    results.sort((a, b) => b.holidays - a.holidays)
+    console.log(results.slice(0, 10))
 
     document.querySelector("#max-holidays").textContent = maxHolidaysCount;
     const bestDates = results.filter((result) => result.holidays === maxHolidaysCount);
