@@ -11,18 +11,31 @@ end.value = moment().format("YYYY-MM-DD");
 end.min = moment().format("YYYY-MM-DD");
 
 const leaves = document.querySelector("#leavesCount");
+
 leaves.addEventListener("change", () => {
-    const newEndDateMin = moment(start.value).add(leaves.value, "days").format("YYYY-MM-DD");
-    end.min = newEndDateMin;
+    // const newEndDateMin = moment(start.value).add(leaves.value, "days").format("YYYY-MM-DD");
+    let newEndDate = moment(start.value)
+    for (let i = 0; i < leaves.value; i++) {
+        newEndDate.add(1, 'days')
+        if (notWorkDay(newEndDate)) {
+            i--
+        }
+    }
+    // newEndDate = newEndDate.add(1, "days");
+    console.log(newEndDate.format("YYYY-MM-DD"));
+    console.log(leaves.value)
+    end.min = newEndDate.format("YYYY-MM-DD");
     if (moment(end.value).isBefore(end.min)) {
-        end.value = newEndDateMin;
+        end.value = newEndDate.format("YYYY-MM-DD");
     }
 });
 
 const startInput = document.querySelector("#start");
 startInput.addEventListener("change", () => {
-    if (moment(end.value).isBefore(moment(start.value))) {
-        end.value = moment(start.value).add(leaves.value, "days").format("YYYY-MM-DD");
+    const newEndDate = dateAfterLeavesExcludeWorkDays(moment(start.value), leaves.value).subtract(1, 'days')
+    console.log(newEndDate.format('YYYY-MM-DD'));
+    if (moment(end.value).isBefore(newEndDate)) {
+        end.value = newEndDate.format("YYYY-MM-DD");
     }
 });
 
@@ -76,8 +89,15 @@ form.addEventListener("submit", (e) => {
     document.querySelector("#max-holidays").innerHTML = "";
     document.querySelector("#holiday-options").innerHTML = "";
     let startDate = moment(form.start.value);
-    const endDate = moment(form.end.value).add(1, "days");
-    // console.log(leaves)
+    let endDate = moment(form.end.value);
+    for (let i = 0; i < leaves; i++) {
+        endDate = moment(endDate).subtract(1, "days")
+        if (notWorkDay(endDate)) {
+            i--
+        }
+    }
+    endDate = moment(endDate).add(1, "days")
+    console.log(endDate.format('YYYYMMDD'))
     let bestHolidayStart = moment(form.start.value);
     let maxHolidaysCount = 0;
     const results = [];
@@ -89,7 +109,7 @@ form.addEventListener("submit", (e) => {
             holidayCount++;
             // console.log(currentDate.format("YYYYMMDD"));
             currentDate = moment(currentDate).add(1, "days");
-            if (HOLIDAYS.includes(currentDate.format("YYYYMMDD")) || moment(currentDate).day() === 0 || moment(currentDate).day() === 6) {
+            if (notWorkDay(currentDate)) {
                 // console.log("holiday/weekend");
                 i--;
             }
@@ -148,4 +168,19 @@ form.addEventListener("submit", (e) => {
 
 function formatDate(momentDate) {
     return momentDate.format("MMM Do YYYY");
+}
+
+function notWorkDay(momentDate) {
+    return HOLIDAYS.includes(momentDate.format("YYYYMMDD")) || moment(momentDate).day() === 0 || moment(momentDate).day() === 6
+}
+
+function dateAfterLeavesExcludeWorkDays(startDate, leaves) {
+    let currentDate = moment(startDate)
+    for (let i = 0; i < leaves; i++) {
+        currentDate.add(1, 'days')
+        if (notWorkDay(currentDate)) {
+            i--
+        }
+    }
+    return currentDate
 }
