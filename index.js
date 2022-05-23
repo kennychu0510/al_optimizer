@@ -88,11 +88,11 @@ form.addEventListener("submit", (e) => {
         for (let i = 0; i < leaves; i++) {
             holidayCount++;
             // console.log(currentDate.format("YYYYMMDD"));
+            currentDate = moment(currentDate).add(1, "days");
             if (HOLIDAYS.includes(currentDate.format("YYYYMMDD")) || moment(currentDate).day() === 0 || moment(currentDate).day() === 6) {
                 // console.log("holiday/weekend");
                 i--;
             }
-            currentDate = moment(currentDate).add(1, "days");
         }
 
         /* When currentDate is a weekend */
@@ -114,11 +114,11 @@ form.addEventListener("submit", (e) => {
             holidays: holidayCount,
         });
     }
-    results.sort((a, b) => b.holidays - a.holidays)
-    console.log(results.slice(0, 10))
+    // results.sort((a, b) => b.holidays - a.holidays)
+    // console.log(results.slice(0, 10))
 
-    document.querySelector("#max-holidays").textContent = maxHolidaysCount;
-    const bestDates = results.filter((result) => result.holidays === maxHolidaysCount);
+    // document.querySelector("#max-holidays").textContent = maxHolidaysCount;
+    const bestDates = results.sort((a, b) => b.holidays - a.holidays).slice(0, 10);
     // console.log(bestDates);
     for (let i = 0; i < bestDates.length; i++) {
         const option = document.createElement("div");
@@ -127,12 +127,19 @@ form.addEventListener("submit", (e) => {
         optionCount.classList.add("bold");
         optionCount.textContent = `Option ${i + 1}`;
         option.appendChild(optionCount)
+
+        const holidayCount = document.createElement("div");
+        holidayCount.classList.add("holiday-count");
+        holidayCount.textContent = bestDates[i].holidays;
+
         const startHoliday = document.createElement("div");
         startHoliday.classList.add("holiday-start");
         startHoliday.textContent = bestDates[i].start;
+
         const endHoliday = document.createElement("div");
         endHoliday.classList.add("holiday-end");
         endHoliday.textContent = bestDates[i].end;
+        option.appendChild(holidayCount);
         option.appendChild(startHoliday);
         option.appendChild(endHoliday);
         document.querySelector('#holiday-options').appendChild(option);

@@ -68,7 +68,8 @@ input {
 }
 
 .holiday-start::before,
-.holiday-end::before {
+.holiday-end::before,
+.holiday-count::before {
     font-weight: bold;
     display: inline-block;
     width: 150px;
@@ -81,6 +82,10 @@ input {
 
 .holiday-end::before {
     content: 'Resume work on ';
+}
+
+.holiday-count::before {
+    content: 'Total Holidays ';
 }
 
 .hidden {
